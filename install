@@ -17,10 +17,10 @@ mkdir -p $PROG_APTH/fastcgi_temp
 mkdir -p $PROG_APTH/scgi_temp
 mkdir -p $PROG_APTH/uwsgi_temp
 mkdir -p $PROG_APTH/proxy_temp
+mkdir -p $PROG_APTH/logs
 
 cp -v -n -r ./conf $PROG_APTH/
 cp -v -n -r ./html $PROG_APTH/
-cp -v -n -r ./logs $PROG_APTH/
 cp -v -n -r ./sbin $PROG_APTH/
 
 cp -v -n ./nginx  $PROG_APTH/
