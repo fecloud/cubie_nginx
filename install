@@ -1,0 +1,32 @@
+#!/bin/sh
+
+PROG="nginx"
+PROG_APTH="/data/app/$PROG"
+MSG_PREFIX=" *"
+echo "$MSG_PREFIX start install $PROG"
+
+if [ -d "$PROG_APTH" ]
+then
+        rm -rf $PROG_APTH
+fi
+
+mkdir -p $PROG_APTH
+
+cp -v -n -r ./client_body_temp $PROG_APTH/
+cp -v -n -r ./conf $PROG_APTH/
+cp -v -n -r ./fastcgi_temp $PROG_APTH/
+cp -v -n -r ./html $PROG_APTH/
+cp -v -n -r ./logs $PROG_APTH/
+cp -v -n -r ./proxy_temp $PROG_APTH/
+cp -v -n -r ./sbin $PROG_APTH/
+cp -v -n -r ./scgi_temp $PROG_APTH/
+cp -v -n -r ./uwsgi_temp $PROG_APTH/
+
+cp -v -n ./nginx  $PROG_APTH/
+
+ln  -f -s $PROG_APTH/$PROG /etc/init.d/$PROG
+update-rc.d  $PROG defaults 30
+
+echo "$MSG_PREFIX install sucess $PROG"
+
+service $PROG restart
