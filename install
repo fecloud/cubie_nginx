@@ -5,13 +5,13 @@ PROG_APTH="/data/app/$PROG"
 MSG_PREFIX=" *"
 echo "$MSG_PREFIX start install $PROG"
 
-if [ -d "$PROG_APTH" ]
-then
-        rm -rf $PROG_APTH
+service nginx stop
+
+if [ -d "$PROG_APTH" ] ; then
+	rm -rf $PROG_APTH
 fi
 
 mkdir -p $PROG_APTH
-
 mkdir -p $PROG_APTH/client_body_temp
 mkdir -p $PROG_APTH/fastcgi_temp
 mkdir -p $PROG_APTH/scgi_temp
@@ -19,11 +19,11 @@ mkdir -p $PROG_APTH/uwsgi_temp
 mkdir -p $PROG_APTH/proxy_temp
 mkdir -p $PROG_APTH/logs
 
-cp -v -n -r ./conf $PROG_APTH/
-cp -v -n -r ./html $PROG_APTH/
-cp -v -n -r ./sbin $PROG_APTH/
+cp -v -n -r conf $PROG_APTH/
+cp -v -n -r html $PROG_APTH/
+cp -v -n -r sbin $PROG_APTH/
 
-cp -v -n ./nginx  $PROG_APTH/
+cp -v -n nginx  $PROG_APTH/
 
 ln  -f -s $PROG_APTH/$PROG /etc/init.d/$PROG
 update-rc.d  $PROG defaults 30
