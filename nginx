@@ -21,10 +21,23 @@ PROG_PID="$PROG_BASE/logs/$PROG.pid"
 PROG_ARGS_STOP="-s stop"
 
 start() {
+	PROG_STATUS=0
+#check process status
     if [ -e "$PROG_PID" ]; then
-        ## Program is running, exit with error.
-        echo "$MSG_PREFIX $PROG is currently running..."
-        exit 1
+		for line in `cat $PROG_PID`
+		do
+			count=`ps -ef |grep $line |grep -v "grep" |wc -l`
+    		if [ $count -gt 0 ]; then
+        		PROG_STATUS=1
+       			break;
+    		fi
+		done
+	fi
+
+	if [ $PROG_STATUS -eq 1 ]; then
+		## Program is running, exit with error.
+		echo "$MSG_PREFIX $PROG is currently running..."
+		exit 1
     else
         ## Change from /dev/null to something like /var/log/$PROG if you want to save output.
         $PROG_PATH/$PROG $PROG_ARGS
@@ -36,7 +49,7 @@ stop() {
     if [ -e "$PROG_PID" ]; then
         ## Program is running, so stop it
       	$PROG_PATH/$PROG $PROG_ARGS_STOP
-	sleep 1
+		sleep 1
        	echo "$MSG_PREFIX $PROG stopped"
     else
         ## Program is not running, exit with error.
